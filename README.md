@@ -47,7 +47,6 @@ Enable "Popup" reminder when creating an event. You'll get a notification for to
 Just open `index.html` in a browser, or run a local server:
 
 Right click index.html - Open with Live Server
-```
 
 ### Tech Stack
 - **Vanilla JavaScript** – No frameworks

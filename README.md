@@ -1,3 +1,4 @@
+![image](https://github.com/user-attachments/assets/60c8f362-3d60-4898-8c3a-c3519656325b)
 # 🗓️ My-Calendar
 
 A lightweight calendar app for managing events. No bloat—just a clean calendar that works in your browser.

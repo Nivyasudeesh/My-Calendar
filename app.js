@@ -7,6 +7,7 @@
     nextBtn: $("nextBtn"),
     todayBtn: $("todayBtn"),
     monthLabel: $("monthLabel"),
+    yearSelect: $("yearSelect"),
 
     // calendar + side
     grid: $("grid"),
@@ -60,6 +61,27 @@
   render();
   renderDayPanel();
   checkPopupReminders();
+  initYearDropdown();
+  }
+  function initYearDropdown(){
+  const currentYear = new Date().getFullYear();
+  const start = currentYear - 50;
+  const end = currentYear + 50;
+
+  for(let y = start; y <= end; y++){
+    const option = document.createElement("option");
+    option.value = y;
+    option.textContent = y;
+    els.yearSelect.appendChild(option);
+  }
+
+  els.yearSelect.value = viewDate.getFullYear();
+
+  els.yearSelect.addEventListener("change", function(){
+    const selectedYear = parseInt(this.value);
+    viewDate = new Date(selectedYear, viewDate.getMonth(), 1);
+    render();
+  });
 }
 
   function bind(){
@@ -104,7 +126,9 @@
 
   // ---------- RENDER CALENDAR (ONLY CURRENT MONTH DAYS) ----------
   function render(){
+    let anyMatch = false;
     const y = viewDate.getFullYear();
+    els.yearSelect.value = y;
     const m = viewDate.getMonth();
     els.monthLabel.textContent = viewDate.toLocaleString(undefined, { month:"long", year:"numeric" });
 
@@ -135,13 +159,41 @@
         els.grid.appendChild(cell);
         return;
       }
+      let noResultEl = document.getElementById("noResults");
+
+       if(!noResultEl){
+        noResultEl = document.createElement("div");
+        noResultEl.id = "noResults";
+        noResultEl.style.textAlign = "center";
+        noResultEl.style.padding = "10px";
+        noResultEl.style.fontWeight = "bold";
+        noResultEl.style.color = "red";
+        els.grid.parentNode.appendChild(noResultEl);
+    }
+
+      if(q && !anyMatch){
+        noResultEl.textContent = "No events found";
+        noResultEl.style.display = "block";
+      } else {
+        noResultEl.style.display = "none";
+     }
 
       const date = cellData.date;
       const key = toDateKey(date);
 
-      const dayEvents = getEventsByDate(key)
-        .filter(ev => !q || formatSearch(ev).includes(q))
-        .sort((a,b) => (a.start||"").localeCompare(b.start||""));
+      const allEvents = getEventsByDate(key);
+
+      const dayEvents = allEvents
+      .filter(ev => !q || formatSearch(ev).includes(q))
+      .sort((a,b) => (a.start||"").localeCompare(b.start||""));
+
+      if(dayEvents.length > 0){
+      anyMatch = true;
+      } 
+
+      if(q && dayEvents.length === 0){
+        cell.style.display = "none";
+      }
 
       cell.className = "cell";
       if(key === toDateKey(new Date())) cell.classList.add("today");

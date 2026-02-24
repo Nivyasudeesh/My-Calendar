@@ -186,24 +186,8 @@ function initMonthDropdown(){
         els.grid.appendChild(cell);
         return;
       }
-      let noResultEl = document.getElementById("noResults");
+    
 
-       if(!noResultEl){
-        noResultEl = document.createElement("div");
-        noResultEl.id = "noResults";
-        noResultEl.style.textAlign = "center";
-        noResultEl.style.padding = "10px";
-        noResultEl.style.fontWeight = "bold";
-        noResultEl.style.color = "red";
-        els.grid.parentNode.appendChild(noResultEl);
-    }
-
-      if(q && !anyMatch){
-        noResultEl.textContent = "No events found";
-        noResultEl.style.display = "block";
-      } else {
-        noResultEl.style.display = "none";
-     }
 
       const date = cellData.date;
       const key = toDateKey(date);
@@ -218,9 +202,7 @@ function initMonthDropdown(){
       anyMatch = true;
       } 
 
-      if(q && dayEvents.length === 0){
-        cell.style.display = "none";
-      }
+
 
       cell.className = "cell";
       if(key === toDateKey(new Date())) cell.classList.add("today");
@@ -231,6 +213,27 @@ function initMonthDropdown(){
         render();
         renderDayPanel();
       });
+      // Show "No events found" only after checking all days
+if(q){
+  let noResultEl = document.getElementById("noResults");
+
+  if(!noResultEl){
+    noResultEl = document.createElement("div");
+    noResultEl.id = "noResults";
+    noResultEl.style.textAlign = "center";
+    noResultEl.style.padding = "10px";
+    noResultEl.style.fontWeight = "bold";
+    noResultEl.style.color = "red";
+    els.grid.parentNode.appendChild(noResultEl);
+  }
+
+  if(!anyMatch){
+    noResultEl.textContent = "No events found";
+    noResultEl.style.display = "block";
+  } else {
+    noResultEl.style.display = "none";
+  }
+}
 
       const head = document.createElement("div");
       head.className = "date";

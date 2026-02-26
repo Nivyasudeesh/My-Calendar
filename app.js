@@ -208,7 +208,7 @@ function initMonthDropdown(){
 
       const dayEvents = allEvents
       .filter(ev => !q || formatSearch(ev).includes(q))
-      .sort((a,b) => (a.start||"").localeCompare(b.start||""));
+      .sort((a,b) => (a.start||'').localeCompare(b.start||''));
 
       if(dayEvents.length > 0){
       anyMatch = true;
@@ -218,6 +218,7 @@ function initMonthDropdown(){
 
       cell.className = "cell";
       if(key === toDateKey(new Date())) cell.classList.add("today");
+      if(key === selectedDate) cell.classList.add("selected");
 
       cell.addEventListener("click", () => {
         selectedDate = key;
@@ -297,7 +298,7 @@ if(q){
     const q = (els.searchInput.value || "").trim().toLowerCase();
     const dayEvents = getEventsByDate(selectedDate)
       .filter(ev => !q || formatSearch(ev).includes(q))
-      .sort((a,b) => (a.start||"").localeCompare(b.start||""));
+      .sort((a,b) => (a.start||'').localeCompare(b.start||''));
 
     els.dayList.innerHTML = "";
 

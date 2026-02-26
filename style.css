@@ -459,6 +459,11 @@ h1{margin:0;font-size:16px; font-weight:700; letter-spacing:.2px; color:#514e6b;
   box-shadow: 0 0 0 4px rgba(185,164,255,0.15);
 }
 
+.cell.selected {
+  background: rgba(185, 164, 255, 0.4);
+  border: 2px solid var(--primary);
+}
+
 .cell.empty{
   cursor: default;
   opacity:.5;
@@ -849,6 +854,10 @@ body.dark .grid {
   border-color: #334155;
   color: #f1f5f9;
   box-shadow: none;
+}
+body.dark .cell.selected {
+  background: rgba(124, 156, 255, 0.25);
+  border-color: #7c9cff;
 }
 /* Dark mode - Clear All Button */
 body.dark .btn.clear-custom{
